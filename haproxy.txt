@@ -1,0 +1,20 @@
+frontend http_front
+        bind *:80
+        mode http
+        default_backend backend_server
+
+backend backend_server
+        mode http
+        balance roundrobin
+        option forwardfor
+        server lab-server1 192.168.2.207:80 check
+        server lab-server2 192.168.3.35:80 check
+
+listen stats
+        bind *:8080
+        stats enable
+        stats hide-version
+        stats show-node
+        stats refresh 7s
+        stats auth tkj:tkj123
+        stats uri /haproxy
